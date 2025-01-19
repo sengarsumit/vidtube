@@ -142,8 +142,8 @@ const loginUser=asynchandler(async(req,res)=>{
 const logoutUser=asynchandler(async(req,res)=>{
     await User.findByIdAndUpdate(req.user._id,
         {
-            $set:{
-                refreshToken:undefined
+            $usset:{
+                refreshtoken:1
 
             }
         },
@@ -152,12 +152,12 @@ const logoutUser=asynchandler(async(req,res)=>{
     )
     const options={
         httpOnly:true,
-        secure:process.env.NODE_ENV==="production",
+        secure:true,
 
     }
     return res.status(200)
     .clearCookie("accessToken",options)
-    .clearCookie("refreshToken",options)
+    .clearCookie("refreshtoken",options)
     .json(new ApiResponse(200,{},"User logged out successfully"))
 })
 
@@ -402,4 +402,4 @@ const getWatchHistory=asynchandler(async(req,res)=>
  
     })
 
-export  {registerUser,loginUser,refreshAccessToken,logoutUser,updateAccountDeatils,updateUserAvatar,updateUserCoverImage,changeCurrentPassword,getCurrentUser};
+export  {registerUser,loginUser,refreshAccessToken,logoutUser,updateAccountDeatils,updateUserAvatar,updateUserCoverImage,changeCurrentPassword,getCurrentUser,getUserChannelProfile,getWatchHistory};
